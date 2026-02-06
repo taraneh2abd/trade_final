@@ -1,0 +1,11 @@
+همینجا کامندلاین باز کن
+شاید نیاز باشه عوض کنی data/train مسیرش رو
+
+powershell
+$env:PYTHONPATH="$PWD"
+cd ci
+$env:PYTHONPATH="$PWD"
+$env:CHATANYWHERE_API_KEY= "sk-hnHJsWH2pyPGovdL7M5hNgZ1UlaRxSFIEGNj17p5iAAyQ0y8"
+cd ..
+
+python -m ci.experiments.run_orchestrator_eval

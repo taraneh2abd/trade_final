@@ -3,6 +3,7 @@ cat > .gitignore << 'EOF'
 # === Python Cache ===
 __pycache__/
 *.py[cod]
+*.pdf
 *$py.class
 *.so
 .Python

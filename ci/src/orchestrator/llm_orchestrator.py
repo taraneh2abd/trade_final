@@ -1,3 +1,5 @@
+# ci\src\orchestrator\llm_orchestrator.py
+
 from __future__ import annotations
 
 import json
@@ -8,12 +10,16 @@ from typing import Any, Dict, Optional, Tuple
 
 from src.evaluation.export import save_result_json
 
+from src.methods.fuzzy_controller import FuzzyController
+from src.methods.hopfield import HopfieldNetwork
+from src.methods.pso import PSO
 from src.methods.pso import PSO
 from src.methods.ga import GA
 from src.methods.aco import ACO
 from src.methods.som import SOM
 from src.methods.perceptron import Perceptron
 from src.methods.mlp import MLP
+from src.methods.gp import GeneticProgramming
 
 from src.orchestrator.chatanywhere_client import ChatAnywhereClient
 
@@ -67,6 +73,12 @@ class LLMOrchestrator:
     # ---------- Methods factory ----------
     def _build_method(self, method_name: str):
         m = method_name.strip().upper()
+        if m == "HOPFIELD":
+            return HopfieldNetwork()
+        if m == "FUZZY":
+            return FuzzyController()
+        if m == "GP":
+            return GeneticProgramming()
         if m == "PSO":
             return PSO()
         if m == "GA":
