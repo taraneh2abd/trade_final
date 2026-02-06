@@ -250,8 +250,7 @@ class LLMOrchestrator:
         }
 
         return {"text": out.get("text", ""), "raw": out.get("raw", None), "json": fixed}
-
-    # ---------- Main runner ----------
+# ---------- Main runner ----------
     def run(self, problem: Any, seed: int = 42, tag: str = "orch_run", verbose: bool = True) -> Dict[str, Any]:
         os.makedirs("results/raw", exist_ok=True)
         os.makedirs(self.logs_dir, exist_ok=True)
@@ -283,7 +282,7 @@ class LLMOrchestrator:
         step6 = analysis["json"]
         perf = step6["performance_assessment"]
 
-        # Backup logic (Orchestrator decides; LLM فقط پیشنهاد می‌دهد)
+        # Backup logic
         backup_ran = False
         backup_result = None
         backup_method_name = None
@@ -292,7 +291,7 @@ class LLMOrchestrator:
             backup_method_name = self._pick_backup(desc, decision.method_name)
             if backup_method_name.upper() != decision.method_name.upper():
                 backup_method = self._build_method(backup_method_name)
-                backup_params, _ = self._sanitize_params(backup_method, {})  # defaults
+                backup_params, _ = self._sanitize_params(backup_method, {})
                 t1 = time.time()
                 backup_result = backup_method.run(problem=problem, params=backup_params, seed=seed)
                 _ = time.time() - t1
@@ -303,20 +302,17 @@ class LLMOrchestrator:
             "tag": tag,
             "seed": seed,
             "problem_desc": desc,
-
             "llm_decision": {
                 "response_text": dec["text"],
                 "response_json": dec_json,
                 "raw": dec["raw"],
             },
-
             "decision": {
                 "method_name": decision.method_name,
                 "params": decision.params,
                 "reasoning": decision.reasoning,
                 "dropped_param_keys": dropped,
             },
-
             "run_result": {
                 "method_name": res.method_name,
                 "best_fitness": res.best_fitness,
@@ -326,13 +322,11 @@ class LLMOrchestrator:
                 "metrics": res.metrics,
                 "history_len": len(res.history) if res.history else 0,
             },
-
             "llm_analysis_step6": {
                 "json": step6,
                 "response_text": analysis.get("text", ""),
                 "raw": analysis.get("raw", None),
             },
-
             "backup": {
                 "enabled": self.enable_backup,
                 "backup_ran": backup_ran,
@@ -346,7 +340,6 @@ class LLMOrchestrator:
                     "metrics": backup_result.metrics,
                 },
             },
-
             "wall_time_sec": wall,
         }
 
@@ -356,15 +349,27 @@ class LLMOrchestrator:
 
         save_result_json(f"results/raw/{tag}_seed{seed}.json", res, extra=desc)
 
-        # چاپ مثل قبل
+        # نمایش نتایج
         if verbose:
-            print("DECISION:", log["decision"])
-            print("RESULT:", log["run_result"])
-            print("STEP6(perf):", step6["performance_assessment"])
+            from colorama import Fore, Style
+            
+            print(f"\n{Fore.CYAN}{'═' * 50}{Style.RESET_ALL}")
+            print(f"{Fore.CYAN}📊 EXPERIMENT RESULT{Style.RESET_ALL}")
+            print(f"{Fore.CYAN}{'═' * 50}{Style.RESET_ALL}")
+            
+            print(f"{Fore.YELLOW}┌────────────┬──────────────┬──────────────┬────────────┐{Style.RESET_ALL}")
+            print(f"{Fore.YELLOW}│ Problem    │ Method       │ Fitness      │ Assessment │{Style.RESET_ALL}")
+            print(f"{Fore.YELLOW}├────────────┼──────────────┼──────────────┼────────────┤{Style.RESET_ALL}")
+            
+            color = Fore.GREEN if perf == "good" else Fore.YELLOW if perf == "acceptable" else Fore.RED
+            print(f"{Fore.YELLOW}│ {desc.get('name', 'Unknown'):<10} │ {decision.method_name:<12} │ {res.best_fitness:>12.6f} │ {color}{perf:<10}{Style.RESET_ALL}{Fore.YELLOW} │{Style.RESET_ALL}")
+            print(f"{Fore.YELLOW}└────────────┴──────────────┴──────────────┴────────────┘{Style.RESET_ALL}")
+            
+            print(f"\n{Fore.BLUE}📈 Iterations: {res.iterations} | ⏱️  Time: {res.time_sec:.2f}s{Style.RESET_ALL}")
+            
             if backup_ran:
-                print("BACKUP_RAN:", True, "| backup_method:", backup_method_name, "| backup_best:", backup_result.best_fitness)
-            else:
-                print("BACKUP_RAN:", False)
+                print(f"\n{Fore.MAGENTA}🔄 Backup executed: {backup_method_name}")
+                print(f"📊 Backup fitness: {backup_result.best_fitness:.6f}{Style.RESET_ALL}")
 
         return {
             "decision": log["decision"],
@@ -380,3 +385,4 @@ class LLMOrchestrator:
             },
             "log_path": log_path,
         }
+# ⭐⭐ مطمئن شوید این خطوط درست باشند ⭐⭐
