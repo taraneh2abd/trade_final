@@ -1,0 +1,60 @@
+# محتوای .gitignore رو با این جایگزین کن:
+cat > .gitignore << 'EOF'
+# === Python Cache ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# === Project Specific ===
+# داده‌ها و نتایج
+results/
+data/
+models/
+
+# === IDE & Editor ===
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# === System ===
+.DS_Store
+Thumbs.db
+
+# === LLM & API Keys ===
+.env
+*.key
+*.pem
+api_keys.txt
+credentials.json
+
+# === Jupyter ===
+.ipynb_checkpoints/
+
+# === OS Generated ===
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+[Tt]humbs.db
+EOF
