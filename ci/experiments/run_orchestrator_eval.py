@@ -75,9 +75,9 @@ def main():
     coords = make_tsp_coords(n=30, seed=123)
     problems = [
         ("Rastrigin", FunctionOptimizationProblem(func_name="rastrigin", dim=10)),
-        ("TSP", TSPProblem(coords=coords, name_="tsp30")),
-        # ("Titanic", TitanicProblem(seed=42)),
-        # ("Iris", ClusteringProblem(dataset="iris", seed=42)),
+        # ("TSP", TSPProblem(coords=coords, name_="tsp30")),
+        ("Titanic", TitanicProblem(seed=42)),
+        ("Iris", ClusteringProblem(dataset="iris", seed=42)),
     ]
 
     # Run 5 times each

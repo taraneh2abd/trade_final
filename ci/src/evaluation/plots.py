@@ -142,9 +142,20 @@ class Plotter:
         method_labels = []
         seed_labels = []
         
-        for method, seeds_data in methods_data.items():
-            for seed, history in seeds_data.items():
+        colors = plt.cm.tab10.colors
+
+        for i, (method, seeds_data) in enumerate(methods_data.items()):
+            for j, (seed, history) in enumerate(seeds_data.items()):
                 if history:
+                    # plot convergence
+                    ax1.plot(
+                        history,
+                        label=f'{method}-Seed{seed}',
+                        linewidth=3,
+                        color=colors[(i + j) % len(colors)]
+                    )
+
+                    # collect final values for boxplot  ✅ مهم
                     last_values.append(history[-1])
                     method_labels.append(method)
                     seed_labels.append(f'Seed {seed}')

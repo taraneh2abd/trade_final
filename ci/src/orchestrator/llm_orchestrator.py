@@ -1,6 +1,7 @@
 # ci\src\orchestrator\llm_orchestrator.py
 
 from __future__ import annotations
+import random
 
 import json
 import os
@@ -283,11 +284,22 @@ class LLMOrchestrator:
         perf = step6["performance_assessment"]
 
         # Backup logic
+        # Backup logic with probabilistic execution
         backup_ran = False
         backup_result = None
         backup_method_name = None
 
-        if self.enable_backup and perf == "poor":
+        run_backup = False
+
+        if self.enable_backup:
+            if perf == "poor":
+                run_backup = True
+            elif perf == "acceptable":
+                run_backup = random.random() < 0.9
+            elif perf in {"good", "awesome"}:
+                run_backup = random.random() < 0.5
+
+        if run_backup:
             backup_method_name = self._pick_backup(desc, decision.method_name)
             if backup_method_name.upper() != decision.method_name.upper():
                 backup_method = self._build_method(backup_method_name)
