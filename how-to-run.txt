@@ -9,3 +9,4 @@ $env:CHATANYWHERE_API_KEY= "sk-jtN3PI3R0vywtGmoSakTX9TPNgjIAbkkFHvYZSbX3e5wbtoZ"
 cd ..
 
 python -m ci.experiments.run_orchestrator_eval
+python -m run_complete_system

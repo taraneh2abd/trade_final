@@ -7,7 +7,9 @@ API_KEYS = [
     "sk-RrrmNQIbMVcfmg79VcqIcuzy84RqIRcNtONmHlBUZ1TcqH99",
     "sk-hnHJsWH2pyPGovdL7M5hNgZ1UlaRxSFIEGNj17p5iAAyQ0y8",
     "sk-hVrWCsICZ5yUyQ1HsJSZL9PI0Sr3X1vG3bfxuIvnLB8iaMAi", ## we are using this
-    "sk-jtN3PI3R0vywtGmoSakTX9TPNgjIAbkkFHvYZSbX3e5wbtoZ"
+    "sk-jtN3PI3R0vywtGmoSakTX9TPNgjIAbkkFHvYZSbX3e5wbtoZ",
+    "sk-Z6yxEByhzfYE77RmZcB2pVfag8aLwkZ9GPWYOEJHvBhVo9wl",
+    "sk-mirr6jxv5gIx7a0lyqq7N4pyNUabc3b9cxDxtMxZdk0aPDWt",
 ]
 
 URL = "https://api.chatanywhere.tech/v1/chat/completions"

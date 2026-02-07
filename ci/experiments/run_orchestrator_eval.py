@@ -76,12 +76,12 @@ def main():
     problems = [
         ("Rastrigin", FunctionOptimizationProblem(func_name="rastrigin", dim=10)),
         ("TSP", TSPProblem(coords=coords, name_="tsp30")),
-        ("Titanic", TitanicProblem(seed=42)),
-        ("Iris", ClusteringProblem(dataset="iris", seed=42)),
+        # ("Titanic", TitanicProblem(seed=42)),
+        # ("Iris", ClusteringProblem(dataset="iris", seed=42)),
     ]
 
     # Run 5 times each
-    seeds = [1]
+    seeds = [1,2,3]
     rows = []
     
     print(f"\n{Fore.YELLOW}📊 Starting 4 problems × 5 runs = 20 experiments{Style.RESET_ALL}")
