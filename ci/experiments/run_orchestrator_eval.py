@@ -99,17 +99,32 @@ def main():
                 log = orch.run(problem=p, seed=s, tag=tag, verbose=True)  # verbose=True shows pretty table
                 
                 # Collect data for CSV
+                primary_method = log["decision"]["method_name"]
+
                 rows.append({
                     "problem": pname,
                     "seed": s,
-                    "selected_method": log["decision"]["method_name"],
-                    "backup_method": log.get("backup_method"),
+                    "role": "primary",
+                    "method": primary_method,
+                    "primary_method": primary_method,
                     "best_fitness": log["result"]["best_fitness"],
                     "time_sec": log["result"]["time_sec"],
                     "status": log["result"]["status"],
                     "performance": log["step6"]["performance_assessment"],
-                    "backup_ran": log["backup_ran"],
                 })
+                if log["backup_ran"] and log["backup_result"]:
+                    rows.append({
+                        "problem": pname,
+                        "seed": s,
+                        "role": "backup",
+                        "method": log["backup_result"]["method_name"],
+                        "primary_method": primary_method,
+                        "best_fitness": log["backup_result"]["best_fitness"],
+                        "time_sec": log["backup_result"]["time_sec"],
+                        "status": log["backup_result"]["status"],
+                        "performance": "backup",
+                    })
+
 
             except Exception as e:
                 print(f"{Fore.RED}❌ Error in {pname} seed {s}: {e}{Style.RESET_ALL}")

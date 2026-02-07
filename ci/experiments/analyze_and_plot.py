@@ -1,3 +1,5 @@
+# ci\experiments\analyze_and_plot.py
+
 import json
 import glob
 import pandas as pd
@@ -103,11 +105,19 @@ def create_targeted_plots():
     
     # 2. ایجاد تحلیل آماری جامع
     print("\n📊 2. Creating comprehensive statistical comparison...")
-    plotter.plot_statistical_comparison(
-        all_results=all_results,
-        filename="statistical_comparison_all_methods.png"
-    )
+    # plotter.plot_statistical_comparison(
+    #     all_results=all_results,
+    #     filename="statistical_comparison_all_methods.png"
+    # )
     
+    for prob_name, prob_results in problems.items():
+        print(f"   Statistical analysis for: {prob_name}")
+        
+        plotter.plot_statistical_comparison(
+            all_results=prob_results,
+            filename=f"statistical_comparison_{prob_name}.png"
+        )
+
     # 3. ایجاد گزارش متنی
     print("\n📝 3. Generating detailed report...")
     plotter._create_text_report(all_results)

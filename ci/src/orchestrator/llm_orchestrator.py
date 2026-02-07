@@ -308,6 +308,21 @@ class LLMOrchestrator:
                 backup_result = backup_method.run(problem=problem, params=backup_params, seed=seed)
                 _ = time.time() - t1
                 backup_ran = True
+        # ذخیره نتیجه backup به صورت run مستقل
+        if backup_ran and backup_result:
+            backup_filename = f"{tag}_seed{seed}_backup_{backup_method_name}.json"
+            backup_path = os.path.join("results/raw", backup_filename)
+
+            # extra باید شامل اسم مسئله باشد
+            backup_extra = dict(desc) if isinstance(desc, dict) else {}
+            backup_extra["is_backup"] = True
+            backup_extra["primary_method"] = decision.method_name
+
+            save_result_json(
+                backup_path,
+                backup_result,
+                extra=backup_extra,
+            )
 
         # Step 7 log
         log = {
