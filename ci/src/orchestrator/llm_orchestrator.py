@@ -313,10 +313,17 @@ class LLMOrchestrator:
             backup_filename = f"{tag}_seed{seed}_backup_{backup_method_name}.json"
             backup_path = os.path.join("results/raw", backup_filename)
 
-            # extra باید شامل اسم مسئله باشد
             backup_extra = dict(desc) if isinstance(desc, dict) else {}
+
+            if tag.startswith("orch_"):
+                backup_extra["name"] = tag.replace("orch_", "")
+            else:
+                backup_extra["name"] = tag
+
+            backup_extra["seed"] = seed
             backup_extra["is_backup"] = True
             backup_extra["primary_method"] = decision.method_name
+
 
             save_result_json(
                 backup_path,
@@ -374,7 +381,20 @@ class LLMOrchestrator:
         with open(log_path, "w", encoding="utf-8") as f:
             json.dump(log, f, ensure_ascii=False, indent=2)
 
-        save_result_json(f"results/raw/{tag}_seed{seed}.json", res, extra=desc)
+        extra = dict(desc) if isinstance(desc, dict) else {}
+
+        # ⭐ تضمین وجود نام مسئله
+        if tag.startswith("orch_"):
+            extra["name"] = tag.replace("orch_", "")
+        else:
+            extra["name"] = tag
+
+        # ⭐ تضمین وجود seed
+        extra["seed"] = seed
+        extra["is_backup"] = False
+        extra["primary_method"] = decision.method_name
+
+        save_result_json(f"results/raw/{tag}_seed{seed}.json", res, extra=extra)
 
         # نمایش نتایج
         if verbose:
