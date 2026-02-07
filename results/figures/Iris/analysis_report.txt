@@ -6,20 +6,20 @@ SUMMARY STATISTICS:
 ----------------------------------------
 
 SOM:
-  Average Fitness: 0.460124
-  Std Deviation: 0.003923
-  Average Time: 3.01s
-  Number of runs: 3
+  Average Fitness: 0.459244
+  Std Deviation: 0.005112
+  Average Time: 3.44s
+  Number of runs: 2
 
 
 METHOD RANKING:
 ----------------------------------------
-1. SOM: 0.460124
+1. SOM: 0.459244
 
 
 RECOMMENDATION:
 ----------------------------------------
 Best method: SOM
-Average fitness: 0.460124
+Average fitness: 0.459244
 
 ======================================================================

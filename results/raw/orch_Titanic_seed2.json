@@ -256,7 +256,7 @@
     "val_best_f1": 0.33057851239669417,
     "stopped_epoch": 42
   },
-  "time_sec": 0.05329632759094238,
+  "time_sec": 0.04876446723937988,
   "iterations": 42,
   "status": "ok",
   "params_used": {

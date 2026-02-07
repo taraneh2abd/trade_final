@@ -6,29 +6,29 @@ SUMMARY STATISTICS:
 ----------------------------------------
 
 GA:
-  Average Fitness: 0.003794
-  Std Deviation: 0.001756
-  Average Time: 2.01s
-  Number of runs: 2
+  Average Fitness: 0.005035
+  Std Deviation: nan
+  Average Time: 2.12s
+  Number of runs: 1
 
 PSO:
   Average Fitness: 6.964708
   Std Deviation: nan
-  Average Time: 0.29s
+  Average Time: 0.28s
   Number of runs: 1
   Type: Backup Method
 
 
 METHOD RANKING:
 ----------------------------------------
-1. GA: 0.003794
+1. GA: 0.005035
 2. PSO: 6.964708
 
 
 RECOMMENDATION:
 ----------------------------------------
 Best method: GA
-Average fitness: 0.003794
+Average fitness: 0.005035
 Improvement over second best: 99.9%
 
 ======================================================================

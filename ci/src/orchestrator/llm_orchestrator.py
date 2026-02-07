@@ -407,9 +407,11 @@ class LLMOrchestrator:
             print(f"{Fore.YELLOW}┌────────────┬──────────────┬──────────────┬────────────┐{Style.RESET_ALL}")
             print(f"{Fore.YELLOW}│ Problem    │ Method       │ Fitness      │ Assessment │{Style.RESET_ALL}")
             print(f"{Fore.YELLOW}├────────────┼──────────────┼──────────────┼────────────┤{Style.RESET_ALL}")
-            
             color = Fore.GREEN if perf == "good" else Fore.YELLOW if perf == "acceptable" else Fore.RED
-            print(f"{Fore.YELLOW}│ {desc.get('name', 'Unknown'):<10} │ {decision.method_name:<12} │ {res.best_fitness:>12.6f} │ {color}{perf:<10}{Style.RESET_ALL}{Fore.YELLOW} │{Style.RESET_ALL}")
+            
+            problem_name = extra.get("name", tag)
+            print(f"{Fore.YELLOW}│ {problem_name:<10} │ {decision.method_name:<12} │ {res.best_fitness:>12.6f} │ {color}{perf:<10}{Style.RESET_ALL}{Fore.YELLOW} │{Style.RESET_ALL}")
+            # print(f"{Fore.YELLOW}│ {desc.get('name', 'Unknown'):<10} │ {decision.method_name:<12} │ {res.best_fitness:>12.6f} │ {color}{perf:<10}{Style.RESET_ALL}{Fore.YELLOW} │{Style.RESET_ALL}")
             print(f"{Fore.YELLOW}└────────────┴──────────────┴──────────────┴────────────┘{Style.RESET_ALL}")
             
             print(f"\n{Fore.BLUE}📈 Iterations: {res.iterations} | ⏱️  Time: {res.time_sec:.2f}s{Style.RESET_ALL}")
