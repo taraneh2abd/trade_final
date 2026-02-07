@@ -27,7 +27,7 @@ share/python-wheels/
 
 # === Project Specific ===
 # داده‌ها و نتایج
-results/
+# results/
 data/
 models/
 

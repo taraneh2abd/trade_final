@@ -1,0 +1,34 @@
+======================================================================
+EXPERIMENTAL RESULTS ANALYSIS REPORT
+======================================================================
+
+SUMMARY STATISTICS:
+----------------------------------------
+
+MLP:
+  Average Fitness: 0.395143
+  Std Deviation: 0.086154
+  Average Time: 0.09s
+  Number of runs: 3
+
+Perceptron:
+  Average Fitness: 0.618048
+  Std Deviation: 0.036271
+  Average Time: 0.23s
+  Number of runs: 3
+  Type: Backup Method
+
+
+METHOD RANKING:
+----------------------------------------
+1. MLP: 0.395143
+2. Perceptron: 0.618048
+
+
+RECOMMENDATION:
+----------------------------------------
+Best method: MLP
+Average fitness: 0.395143
+Improvement over second best: 36.1%
+
+======================================================================

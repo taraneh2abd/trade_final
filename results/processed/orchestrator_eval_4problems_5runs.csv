@@ -1,0 +1,13 @@
+problem,seed,role,method,primary_method,best_fitness,time_sec,status,performance,selected_method,backup_method,backup_ran
+Rastrigin,1,primary,GA,GA,0.005035351914642661,2.031158447265625,ok,good,,,
+Rastrigin,1,backup,PSO,GA,6.9647083618339565,0.291719913482666,ok,backup,,,
+Rastrigin,2,primary,GA,GA,0.002551945378698406,1.9829661846160889,ok,acceptable,,,
+Rastrigin,3,,,,,0.0,failed,error,ERROR,,False
+Titanic,1,,,,,0.0,failed,error,ERROR,,False
+Titanic,2,primary,MLP,MLP,0.3801652892561983,0.05329632759094238,ok,poor,,,
+Titanic,2,backup,Perceptron,MLP,0.6363636363636364,0.22801446914672852,ok,backup,,,
+Titanic,3,primary,MLP,MLP,0.48780487804878053,0.11372613906860352,ok,acceptable,,,
+Titanic,3,backup,Perceptron,MLP,0.6415094339622641,0.22993969917297363,ok,backup,,,
+Iris,1,primary,SOM,SOM,0.4556289290146096,4.397791385650635,ok,acceptable,,,
+Iris,2,primary,SOM,SOM,0.4618854545624976,2.351158618927002,ok,acceptable,,,
+Iris,3,primary,SOM,SOM,0.46285860765723363,2.2884020805358887,ok,acceptable,,,
