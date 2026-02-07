@@ -230,10 +230,10 @@ class Plotter:
             return
         
         # ایجاد نمودار جامع
-        fig = plt.figure(figsize=(16, 14))
+        fig = plt.figure(figsize=(16, 9))
         
         # 1. میانگین fitness برای هر متد (شامل backupها)
-        ax1 = plt.subplot(3, 3, 1)
+        ax1 = plt.subplot(2, 3, 1)
         mean_fitness = df.groupby(['Method', 'IsBackup'])['Fitness'].mean().reset_index()
         colors = ['green' if not b else 'red' for b in mean_fitness['IsBackup']]
         bars = ax1.bar(range(len(mean_fitness)), mean_fitness['Fitness'], 
@@ -257,7 +257,7 @@ class Plotter:
         ax1.legend(handles=[main_patch, backup_patch])
         
         # 2. میانگین زمان اجرا
-        ax2 = plt.subplot(3, 3, 2)
+        ax2 = plt.subplot(2, 3, 2)
         mean_time = df.groupby('Method')['Time'].mean().sort_values()
         bars2 = ax2.bar(range(len(mean_time)), mean_time.values, 
                        color='skyblue', edgecolor='black')
@@ -274,7 +274,7 @@ class Plotter:
         ax2.grid(True, alpha=0.3, axis='y')
         
         # 3. توزیع fitness برای هر متد (violin plot)
-        ax3 = plt.subplot(3, 3, 3)
+        ax3 = plt.subplot(2, 3, 3)
         methods_order = df.groupby('Method')['Fitness'].mean().sort_values().index
         violin_parts = ax3.violinplot([df[df['Method']==m]['Fitness'] 
                                      for m in methods_order], 
@@ -293,7 +293,7 @@ class Plotter:
         ax3.grid(True, alpha=0.3, axis='y')
         
         # 4. بهترین نتایج برای هر seed
-        ax4 = plt.subplot(3, 3, 4)
+        ax4 = plt.subplot(2, 3, 4)
         best_per_seed = df.loc[df.groupby('Seed')['Fitness'].idxmin()]
         best_counts = best_per_seed['Method'].value_counts()
         
@@ -305,7 +305,7 @@ class Plotter:
         ax4.set_title('Best Method per Seed')
         
         # 5. مقایسه fitness و زمان (scatter plot)
-        ax5 = plt.subplot(3, 3, 5)
+        ax5 = plt.subplot(2, 3, 5)
         scatter_data = df.groupby('Method').agg({'Fitness': 'mean', 'Time': 'mean'}).reset_index()
         
         scatter = ax5.scatter(scatter_data['Time'], scatter_data['Fitness'], 
@@ -324,7 +324,7 @@ class Plotter:
         ax5.grid(True, alpha=0.3)
         
         # 6. رتبه‌بندی روش‌ها
-        ax6 = plt.subplot(3, 3, 6)
+        ax6 = plt.subplot(2, 3, 6)
         
         # محاسبه امتیاز برای هر متد
         method_scores = {}
@@ -362,68 +362,68 @@ class Plotter:
         ax6.grid(True, alpha=0.3, axis='x')
         
         # 7. تحلیل آماری - آزمون t-test بین بهترین و سایر روش‌ها
-        ax7 = plt.subplot(3, 3, (7, 9))
+        # ax7 = plt.subplot(3, 3, (7, 9))
         
-        if len(df['Method'].unique()) >= 2:
-            best_method = methods_ranked[0]
-            other_methods = methods_ranked[1:4] if len(methods_ranked) > 4 else methods_ranked[1:]
+        # if len(df['Method'].unique()) >= 2:
+        #     best_method = methods_ranked[0]
+        #     other_methods = methods_ranked[1:4] if len(methods_ranked) > 4 else methods_ranked[1:]
             
-            comparisons = []
-            p_values = []
+        #     comparisons = []
+        #     p_values = []
             
-            for other_method in other_methods:
-                best_fitness = df[df['Method'] == best_method]['Fitness'].values
-                other_fitness = df[df['Method'] == other_method]['Fitness'].values
+        #     for other_method in other_methods:
+        #         best_fitness = df[df['Method'] == best_method]['Fitness'].values
+        #         other_fitness = df[df['Method'] == other_method]['Fitness'].values
                 
-                if len(best_fitness) > 1 and len(other_fitness) > 1:
-                    # آزمون t-test مستقل
-                    t_stat, p_value = stats.ttest_ind(best_fitness, other_fitness)
-                    comparisons.append(f"{best_method} vs {other_method}")
-                    p_values.append(p_value)
+        #         if len(best_fitness) > 1 and len(other_fitness) > 1:
+        #             # آزمون t-test مستقل
+        #             t_stat, p_value = stats.ttest_ind(best_fitness, other_fitness)
+        #             comparisons.append(f"{best_method} vs {other_method}")
+        #             p_values.append(p_value)
             
-            if comparisons:
-                # رسم نتایج آزمون
-                x_pos = np.arange(len(comparisons))
-                bars7 = ax7.bar(x_pos, p_values, color=['green' if p > 0.05 else 'red' 
-                                                      for p in p_values])
+        #     if comparisons:
+        #         # رسم نتایج آزمون
+        #         x_pos = np.arange(len(comparisons))
+        #         bars7 = ax7.bar(x_pos, p_values, color=['green' if p > 0.05 else 'red' 
+        #                                               for p in p_values])
                 
-                # خط آستانه معناداری
-                ax7.axhline(y=0.05, color='red', linestyle='--', alpha=0.5, 
-                           label='Significance level (α=0.05)')
+        #         # خط آستانه معناداری
+        #         ax7.axhline(y=0.05, color='red', linestyle='--', alpha=0.5, 
+        #                    label='Significance level (α=0.05)')
                 
-                ax7.set_xlabel('Method Comparison')
-                ax7.set_ylabel('p-value')
-                ax7.set_title('Statistical Significance (t-test)')
-                ax7.set_xticks(x_pos)
-                ax7.set_xticklabels(comparisons, rotation=45, ha='right')
-                ax7.legend()
-                ax7.grid(True, alpha=0.3, axis='y')
+        #         ax7.set_xlabel('Method Comparison')
+        #         ax7.set_ylabel('p-value')
+        #         ax7.set_title('Statistical Significance (t-test)')
+        #         ax7.set_xticks(x_pos)
+        #         ax7.set_xticklabels(comparisons, rotation=45, ha='right')
+        #         ax7.legend()
+        #         ax7.grid(True, alpha=0.3, axis='y')
                 
-                # افزودن مقدار p-value روی میله‌ها
-                for bar, p_val in zip(bars7, p_values):
-                    height = bar.get_height()
-                    ax7.text(bar.get_x() + bar.get_width()/2, height,
-                            f'p={p_val:.4f}', ha='center', va='bottom', fontsize=8)
-            else:
-                ax7.text(0.5, 0.5, 'Insufficient data\nfor statistical tests',
-                        ha='center', va='center', transform=ax7.transAxes,
-                        fontsize=12, alpha=0.5)
-        else:
-            ax7.text(0.5, 0.5, 'Need at least 2 methods\nfor statistical comparison',
-                    ha='center', va='center', transform=ax7.transAxes,
-                    fontsize=12, alpha=0.5)
+        #         # افزودن مقدار p-value روی میله‌ها
+        #         for bar, p_val in zip(bars7, p_values):
+        #             height = bar.get_height()
+        #             ax7.text(bar.get_x() + bar.get_width()/2, height,
+        #                     f'p={p_val:.4f}', ha='center', va='bottom', fontsize=8)
+        #     else:
+        #         ax7.text(0.5, 0.5, 'Insufficient data\nfor statistical tests',
+        #                 ha='center', va='center', transform=ax7.transAxes,
+        #                 fontsize=12, alpha=0.5)
+        # else:
+        #     ax7.text(0.5, 0.5, 'Need at least 2 methods\nfor statistical comparison',
+        #             ha='center', va='center', transform=ax7.transAxes,
+        #             fontsize=12, alpha=0.5)
         
         # افزودن جدول خلاصه نتایج
-        plt.figtext(0.02, 0.02, 
-                   self._generate_summary_text(df, methods_ranked), 
-                   fontsize=9, family='monospace',
-                   bbox=dict(boxstyle="round,pad=0.5", 
-                           facecolor="lightgray", alpha=0.5))
+        # plt.figtext(0.02, 0.02, 
+        #            self._generate_summary_text(df, methods_ranked), 
+        #            fontsize=9, family='monospace',
+        #            bbox=dict(boxstyle="round,pad=0.5", 
+        #                    facecolor="lightgray", alpha=0.5))
         
-        plt.suptitle('COMPREHENSIVE STATISTICAL ANALYSIS OF ALL METHODS', 
-                    fontsize=16, fontweight='bold', y=0.98)
+        # plt.suptitle('COMPREHENSIVE STATISTICAL ANALYSIS OF ALL METHODS', 
+        #             fontsize=16, fontweight='bold', y=0.98)
         
-        plt.tight_layout()
+        # plt.tight_layout()
         
         if filename:
             self.save_fig(filename)
